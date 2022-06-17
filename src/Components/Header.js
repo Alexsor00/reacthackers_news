@@ -15,9 +15,9 @@ export default function Header (){
                         <a> ask</a> |
                         <a> show</a> |
                         <a> jobs</a> |
-                        <a> submit</a> |
+                        <a href='/submit'> submit</a> |
                     </td>
-                    <td className="login"><a>Login</a></td>
+                    <td className="login"><a href='/login'>Login</a></td>
 
                 </tr>
             </tbody>

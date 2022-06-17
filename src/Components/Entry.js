@@ -44,7 +44,7 @@ export default function Entry() {
         <td colSpan={2}></td>
         <td className="subtext">
           <span>64 points</span> by
-          <a> {users[0].nickname =! null && users[0].nickname}</a>
+       {/*<a> {users[0].nickname =! null && users[0].nickname}</a>*/}   
           <a> 10 minutes ago</a> | hide |<a> 171 Comments</a>
         </td>
       </tr>
