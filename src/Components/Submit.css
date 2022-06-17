@@ -1,0 +1,75 @@
+.headerSubmit {
+
+    background-color: rgb(255, 102, 0);
+    
+}
+
+.main {
+    width: 85%;
+    margin-top: 0.5rem;
+}
+
+.formulario {
+    background-color: #f6f6ef;
+}
+
+.title {
+    color: #828282;
+}
+
+.url {
+    color: #828282;
+}
+
+.body {
+    color: #828282;
+}
+
+.headerTitle {
+    color: #222222;
+    font-size: 10pt;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.inputTitle {
+    width: 60%;
+}
+.titleRow {
+    width: 100%;
+}
+
+.urlRow {
+    width: 100%;
+}
+
+.inputRow {
+    width: 60%;
+    margin-left: 7px;
+}
+
+.separatOR {
+    margin-left: 35px;
+    color: #828282;
+}
+
+.bodyRow {
+    display:block;
+    width: 10px;
+}
+
+.body{
+    width: 10px;
+}
+
+
+
+.submitlabel  {
+    font-family: monospace;
+    margin-left: 32px;
+
+}
+
+.footerText{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #828282;
+}

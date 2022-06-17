@@ -1,0 +1,27 @@
+.title {
+
+    font-size: 13.3333px;
+    width: auto; 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.subtext {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 7pt;
+    color: #828282;
+    
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+	transform: rotate(225deg);
+	
+	
+}
+.points {
+    width: 10px;
+}
