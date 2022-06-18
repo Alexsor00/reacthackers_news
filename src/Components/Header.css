@@ -11,7 +11,7 @@
     height: 10px;
     font-size: 13.333px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
+    color: black !important;
 }
 .login {
    float: right;
@@ -21,7 +21,8 @@
 
 }
 .title{
-    
+    color: black !important;
+
     font-size: 13.3333px;
     width: auto; 
     font-family: Verdana, Geneva, Tahoma, sans-serif;

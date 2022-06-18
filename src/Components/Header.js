@@ -1,6 +1,12 @@
 import './Header.css'
-export default function Header (){
+import {logoutUser} from '../controllers/user.controller'
 
+export default function Header ({currentUser , setCurrentUser}){
+
+
+      const logout = () => {
+        logoutUser(setCurrentUser);
+      }
 
      return(
         <table className="footer">
@@ -17,8 +23,9 @@ export default function Header (){
                         <a> jobs</a> |
                         <a href='/submit'> submit</a> |
                     </td>
-                    <td className="login"><a href='/login'>Login</a></td>
-
+                    <td className="login">
+                  {currentUser === null ? <a href='/login'>Login</a> : <span className='login'> <a> {currentUser.nickname}</a>(<span>{currentUser.points}</span>) | <a onClick={logout}>Logout</a></span>}  
+                  </td>
                 </tr>
             </tbody>
         </table>

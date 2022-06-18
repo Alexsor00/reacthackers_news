@@ -1,7 +1,6 @@
 import Entry from './Entry'
 import './MainData.css'
-export default function MainData (){
-
+export default function MainData ({currentUser}){
    return(
 
     <table className="mainTable">

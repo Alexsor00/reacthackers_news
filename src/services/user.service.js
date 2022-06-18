@@ -8,10 +8,22 @@ const usersCollectionRef = collection(db, "users");
 const getUsers = async () => {
    const data = await getDocs(usersCollectionRef);
    const d = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
-
+   
     return d;
 };
 
+const getUser = async (email) => {
+  let dataUser = []
+  const data = await getDocs(usersCollectionRef);
+  const d = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+
+  d.forEach(user => {
+    if(user.email === email) {
+      dataUser = user;
+    }
+    });
+   return dataUser;
+};
 
 const createUser = async (newNickname, newPassword, newEmail) => {
    try {
@@ -39,4 +51,4 @@ const createUser = async (newNickname, newPassword, newEmail) => {
  
 
 
-export {getUsers, createUser};
+export {getUsers, getUser, createUser};

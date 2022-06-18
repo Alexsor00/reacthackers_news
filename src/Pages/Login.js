@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { createUser } from "../services/user.service";
+import { createUser, getUser } from "../services/user.service";
 import {Link, Routes, Route, useNavigate} from 'react-router-dom';
-
-export default function Login() {
+import {loginUser, singUpUser} from '../controllers/user.controller'
+export default function Login({setCurrentUser}) {
     const navigate = useNavigate();
 
     const [form, setForm] = useState({});
@@ -14,14 +14,37 @@ export default function Login() {
           });
             }
 
-            const handleClick = async (e) => {
+            const singUp = async (e) => {
+              try {
                 e.preventDefault();
-
-               const status =  await createUser(form.nickname_signup, form.password_signup, form.email_signup)
-               console.log(status)
-              if(status)  navigate('/');
+                await singUpUser(form.nickname_signup, form.password_signup, form.email_signup)
+                navigate('/');
+              } catch (error) {
+                if(error.status === 0){
+                  alert(error.body)
+                  return;
+                }
+              }
+               
 
             }
+
+            const login = async (e) => {
+              e.preventDefault();
+             try {
+              await loginUser(form.email_login, form.password_login, setCurrentUser)
+              navigate('/');
+             } catch (error) {
+               if(error.status === 0){
+                 alert(error.body)
+                 return;
+               }
+             }
+         
+
+          }
+          
+
 
   return (
     <body>
@@ -55,7 +78,7 @@ export default function Login() {
         </tbody>
       </table>
       <br />
-      <input type="submit" value="login" />
+      <input onClick = {login} type="submit" value="login" />
       <form />
       <a href="forgot">Forgot your password?</a>
       <br />
@@ -98,7 +121,7 @@ export default function Login() {
         </tbody>
       </table>
       <br />
-      <input type="submit" value="create account" onClick={handleClick} />
+      <input type="submit" value="create account" onClick={singUp} />
       <form />
     </body>
   );
