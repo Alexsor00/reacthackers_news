@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { getUsers } from "../services/user.service";
+import { getUser } from "../services/user.service";
 import "./Entry.css";
-export default function Entry() {
+export default function Entry({title, url, points, autor, created_at}){
+  
 
-  const [users, setUsers] = useState([])
+    const[user, setUser] = useState(null)
 
-  useEffect(() => {
-    
-    const getDBUsers = async () => {
-      const data = await getUsers();
-      setUsers(data);
-    }
-    getDBUsers();
-  }, [])  
-
+    useEffect(() => {
+     const getUserDB = async () => {
+        const user = await getUser(autor)
+        setUser(user);
+      }
+   
+      getUserDB();
+    },[]);
+     
   return (
     <>
       <tr>
@@ -31,21 +32,20 @@ export default function Entry() {
           </center>
         </td>
         <td className="title">
-          <a>
-            Ten years after the Higgs, physicists face the nightmare of finding
-            nothing else
+          <a href={url}>
+            {title}
           </a>{" "}
           <span style={{ fontSize: "10.33px", color: "#828282" }}>
-            (science.org)
+            ({url})
           </span>
         </td>
       </tr>
       <tr>
         <td colSpan={2}></td>
         <td className="subtext">
-          <span>64 points</span> by
-       {/*<a> {users[0].nickname =! null && users[0].nickname}</a>*/}   
-          <a> 10 minutes ago</a> | hide |<a> 171 Comments</a>
+          <span>{points} points</span> by
+       {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}   
+          <a> {created_at}</a> | hide |<a> 171 Comments</a>
         </td>
       </tr>
     </>

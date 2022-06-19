@@ -23,7 +23,7 @@ export default function MainPage (){
           
          <Routes>
               
-              <Route exact path="/" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><MainData currentUser={currentUser}/><Footer /></center>} />
+              <Route exact path="/" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><MainData /><Footer /></center>} />
                <Route exact path="/submit" element= {<Submit currentUser={currentUser} />} />  
                <Route exact path="/login" element= {<Login setCurrentUser={setCurrentUser}/>} />  
 
