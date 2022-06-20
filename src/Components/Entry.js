@@ -19,32 +19,26 @@ export default function Entry({ article, index }) {
   }, []);
 
   useEffect(() => {
-    
     const getArticleDB = async () => {
-   
       const articleDB = await getArticle(article.id);
       setCurrentArticle(articleDB);
-    console.log(currentArticle)
-
-    
+      console.log(currentArticle);
     };
 
     getArticleDB();
   }, []);
 
- 
-
   const handleClick = async () => {
     await upvote(article.id, currentArticle.points);
     const articleDB = await getArticle(article.id);
     setCurrentArticle(articleDB);
-  
-
   };
 
   return (
     <>
-          <tr className="separator"><td></td></tr>
+      <tr className="separator">
+        <td></td>
+      </tr>
 
       <tr>
         <td align="right" valign="top" className="title">
@@ -57,12 +51,18 @@ export default function Entry({ article, index }) {
             </a>
           </center>
         </td>
-        <td className="title">
-          <a href={currentArticle.url}>{currentArticle.title}</a>{" "}
-          <span style={{ fontSize: "10.33px", color: "#828282" }}>
-            ({currentArticle.url})
-          </span>
-        </td>
+        {currentArticle.url === undefined ? (
+          <td className="title">
+            <a href={`article/${currentArticle.id}`}>{currentArticle.title}</a>{" "}
+          </td>
+        ) : (
+          <td className="title">
+            <a href={currentArticle.url}>{currentArticle.title}</a>{" "}
+            <span style={{ fontSize: "10.33px", color: "#828282" }}>
+              ({currentArticle.url})
+            </span>
+          </td>
+        )}
       </tr>
       <tr>
         <td colSpan={2}></td>
@@ -71,12 +71,13 @@ export default function Entry({ article, index }) {
           {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}
           <a>
             {" "}
-            {moment(new Date(currentArticle.created_at.seconds * 1000)).fromNow()}
+            {moment(
+              new Date(currentArticle.created_at.seconds * 1000)
+            ).fromNow()}
           </a>{" "}
           | hide |<a> 171 Comments</a>
         </td>
       </tr>
-
     </>
   );
 }

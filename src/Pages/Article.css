@@ -1,0 +1,65 @@
+.text{
+
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+td{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+.arrow {
+    border: solid #828282;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+	transform: rotate(225deg);
+	margin-bottom: 3px;
+    margin-right: 3px;
+	
+}
+
+
+.mainTitle {
+    margin-top: 10px;
+}
+
+
+
+.title{
+    text-decoration: none ;
+    font-family: Verdana, Geneva, sans-serif;
+    color: black ;
+    font-size: 13.3333px;
+    width: auto; 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.aTable {
+        display: table;
+        border-collapse: separate;
+        box-sizing: border-box;
+        text-indent: initial;
+        white-space: normal;
+        line-height: normal;
+        font-weight: normal;
+        font-size: medium;
+        font-style: normal;
+        color: -internal-quirk-inherit;
+        text-align: start;
+        border-spacing: 2px;
+        border-color: grey;
+        font-variant: normal;
+        background-color: rgb(246, 246, 239);
+        width: 85%;
+    
+}
+
+.addComment {
+    width: 100%;
+}

@@ -15,23 +15,38 @@ const createArticle = async (newTitle, newUrl, newBody, user) => {
       alert("Titulo no introducido");
       return false;
     } else if (newUrl === undefined || newUrl.match(/^ *$/) !== null) {
-      alert("Password no introducido");
+      if (newBody === undefined || newBody.match(/^ *$/)) {
+        alert("El campo de texto o url debe de estar rellenado");
+        return false;
+      }
+    } else if (newBody !== undefined && newUrl !== undefined) {
+      alert(
+        "Únicamente se podrá crear un artículo con URL o con texto, nunca las dos a la vez"
+      );
       return false;
-    } else if (newBody === undefined || newBody.match(/^ *$/)) {
-      alert("Email no introducido o incorrecto");
-      return false;
+    } 
+     if (newBody === undefined) {
+      await addDoc(articlesCollectionRef, {
+        title: newTitle,
+        url: newUrl,
+        points: 0,
+        created_at: new Date(),
+        autor_email: user.email,
+        autor_nickname: user.nickname,
+      });
+      return true;
+    } 
+       else if (newUrl === undefined) {
+      await addDoc(articlesCollectionRef, {
+        title: newTitle,
+        text: newBody,
+        points: 0,
+        created_at: new Date(),
+        autor_email: user.email,
+        autor_nickname: user.nickname,
+      });
+      return true;
     }
-
-    await addDoc(articlesCollectionRef, {
-      title: newTitle,
-      url: newUrl,
-      text: newBody,
-      points: 0,
-      created_at: new Date(),
-      autor_email: user.email,
-      autor_nickname: user.nickname,
-    });
-    return true;
   } catch (error) {
     console.log(error);
   }
@@ -47,13 +62,7 @@ const upvoteArticle = async (id, points) => {
 const getArticles = async () => {
   const data = await getDocs(articlesCollectionRef);
   const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  d.sort((a, b) =>
-  a.points < b.points
-    ? 1
-    : b.points < a.points
-    ? -1
-    : 0
-);
+  d.sort((a, b) => (a.points < b.points ? 1 : b.points < a.points ? -1 : 0));
 
   return d;
 };
@@ -84,6 +93,8 @@ const getArticle = async (id) => {
   const result = d.filter((article) => article.id === id);
   return result[0];
 };
+
+
 
 export {
   createArticle,
