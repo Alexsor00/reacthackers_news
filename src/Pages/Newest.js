@@ -16,8 +16,8 @@ export default function MainData() {
     <table className="mainTable">
       <tbody>
         {articles !== null &&
-          articles.map((article) => {
-            return <Entry article={article} />;
+          articles.map((article, index) => {
+            return <Entry article={article} index={index} />;
           })}
       </tbody>
     </table>

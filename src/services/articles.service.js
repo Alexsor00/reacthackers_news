@@ -47,6 +47,13 @@ const upvoteArticle = async (id, points) => {
 const getArticles = async () => {
   const data = await getDocs(articlesCollectionRef);
   const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  d.sort((a, b) =>
+  a.points < b.points
+    ? 1
+    : b.points < a.points
+    ? -1
+    : 0
+);
 
   return d;
 };
@@ -75,7 +82,7 @@ const getArticle = async (id) => {
   const data = await getDocs(articlesCollectionRef);
   const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   const result = d.filter((article) => article.id === id);
-  return result;
+  return result[0];
 };
 
 export {

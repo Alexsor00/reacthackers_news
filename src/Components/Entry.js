@@ -5,10 +5,10 @@ import moment from "moment";
 import { upvote } from "../controllers/article.controller";
 import { getArticle } from "../services/articles.service";
 
-export default function Entry({ article }) {
+export default function Entry({ article, index }) {
   const [user, setUser] = useState(null);
 
-  const [currentPoints, setCurrentPoints] = useState(article.points);
+  const [currentArticle, setCurrentArticle] = useState(article);
   useEffect(() => {
     const getUserDB = async () => {
       const user = await getUser(article.autor_email);
@@ -18,16 +18,37 @@ export default function Entry({ article }) {
     getUserDB();
   }, []);
 
+  useEffect(() => {
+    
+    const getArticleDB = async () => {
+   
+      const articleDB = await getArticle(article.id);
+      setCurrentArticle(articleDB);
+    console.log(currentArticle)
+
+    
+    };
+
+    getArticleDB();
+  }, []);
+
+ 
+
   const handleClick = async () => {
-    await upvote(article.id, currentPoints);
-    setCurrentPoints(currentPoints + 1);
+    await upvote(article.id, currentArticle.points);
+    const articleDB = await getArticle(article.id);
+    setCurrentArticle(articleDB);
+  
+
   };
 
   return (
     <>
+          <tr className="separator"><td></td></tr>
+
       <tr>
         <td align="right" valign="top" className="title">
-          <span>1</span>
+          <span className="index">{index + 1}.</span>
         </td>
         <td valign="top" className="votelinks">
           <center>
@@ -37,24 +58,25 @@ export default function Entry({ article }) {
           </center>
         </td>
         <td className="title">
-          <a href={article.url}>{article.title}</a>{" "}
+          <a href={currentArticle.url}>{currentArticle.title}</a>{" "}
           <span style={{ fontSize: "10.33px", color: "#828282" }}>
-            ({article.url})
+            ({currentArticle.url})
           </span>
         </td>
       </tr>
       <tr>
         <td colSpan={2}></td>
         <td className="subtext">
-          <span>{currentPoints} points</span> by
+          <span>{currentArticle.points} points</span> by
           {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}
           <a>
             {" "}
-            {moment(new Date(article.created_at.seconds * 1000)).fromNow()}
+            {moment(new Date(currentArticle.created_at.seconds * 1000)).fromNow()}
           </a>{" "}
           | hide |<a> 171 Comments</a>
         </td>
       </tr>
+
     </>
   );
 }

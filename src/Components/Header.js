@@ -22,7 +22,7 @@ export default function Header({ currentUser, setCurrentUser }) {
           </td>
           <td className="login">
             {currentUser === null ? (
-              <a href="/login">Login</a>
+              <a href="/login">login</a>
             ) : (
               <span className="login">
                 {" "}
