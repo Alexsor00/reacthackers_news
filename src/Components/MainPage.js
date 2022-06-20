@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import User from "../Pages/User";
 import Submitted from "../Pages/Submitted";
+import Newest from "../Pages/Newest";
 
 
 export default function MainPage (){
@@ -26,7 +27,7 @@ export default function MainPage (){
          <Routes> 
          <Route path="/user/:user_email" element= {<User currentUser={currentUser}/>} />  
          <Route path="/submited/:user_email" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Submitted /><Footer /></center>} />  
-
+         <Route exact path="/newest" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Newest /><Footer /></center>} />
               <Route exact path="/" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><MainData /><Footer /></center>} />
                <Route exact path="/submit" element= {<Submit currentUser={currentUser} />} />  
                <Route exact path="/login" element= {<Login setCurrentUser={setCurrentUser}/>} />  

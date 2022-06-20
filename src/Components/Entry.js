@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import "./Entry.css";
-export default function Entry({title, url, points, autor, created_at}){
-  
+import moment from "moment";
+import { upvote } from "../controllers/article.controller";
+import { getArticle } from "../services/articles.service";
 
-    const[user, setUser] = useState(null)
+export default function Entry({ article }) {
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-     const getUserDB = async () => {
-        const user = await getUser(autor)
-        setUser(user);
-      }
-   
-      getUserDB();
-    },[]);
-     
+  const [currentPoints, setCurrentPoints] = useState(article.points);
+  useEffect(() => {
+    const getUserDB = async () => {
+      const user = await getUser(article.autor_email);
+      setUser(user);
+    };
+
+    getUserDB();
+  }, []);
+
+  const handleClick = async () => {
+    await upvote(article.id, currentPoints);
+    setCurrentPoints(currentPoints + 1);
+  };
+
   return (
     <>
       <tr>
@@ -23,29 +31,28 @@ export default function Entry({title, url, points, autor, created_at}){
         </td>
         <td valign="top" className="votelinks">
           <center>
-            <a
-              id="up_31751242"
-              href="vote?id=31751242&amp;how=up&amp;goto=news"
-            >
+            <a onClick={handleClick}>
               <div className="arrow" title="upvote"></div>
             </a>
           </center>
         </td>
         <td className="title">
-          <a href={url}>
-            {title}
-          </a>{" "}
+          <a href={article.url}>{article.title}</a>{" "}
           <span style={{ fontSize: "10.33px", color: "#828282" }}>
-            ({url})
+            ({article.url})
           </span>
         </td>
       </tr>
       <tr>
         <td colSpan={2}></td>
         <td className="subtext">
-          <span>{points} points</span> by
-       {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}   
-          <a> {created_at}</a> | hide |<a> 171 Comments</a>
+          <span>{currentPoints} points</span> by
+          {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}
+          <a>
+            {" "}
+            {moment(new Date(article.created_at.seconds * 1000)).fromNow()}
+          </a>{" "}
+          | hide |<a> 171 Comments</a>
         </td>
       </tr>
     </>
