@@ -40,7 +40,7 @@ const createUser = async (newNickname, newPassword, newEmail) => {
     alert("Email no introducido o incorrecto")
     return false;
    } 
-     await addDoc(usersCollectionRef, {nickname: newNickname, password: newPassword, email: newEmail, points: 0});
+     await addDoc(usersCollectionRef, {nickname: newNickname, password: newPassword, email: newEmail, points: 0, created_at: new Date()});
      return true;
    } catch (error) {
     

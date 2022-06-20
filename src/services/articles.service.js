@@ -1,5 +1,5 @@
 import { db } from "../server/firebase-config"
-import {collection, getDocs, addDoc } from 'firebase/firestore'
+import {collection, getDocs, addDoc, doc } from 'firebase/firestore'
 
 const articlesCollectionRef = collection(db, "articles");
 
@@ -35,6 +35,12 @@ const getArticles = async () => {
     
      return d;
  };
- 
+ const getArticles_byUser = async (user_email) => {
+  const data = await getDocs(articlesCollectionRef);
+  const d = data.docs.map((doc) => ({...doc.data(), id: doc.id}))
+  const result = d.filter(article => article.autor_email === user_email);
+   return result;
+};
 
-export {createArticle, getArticles}
+
+export {createArticle, getArticles, getArticles_byUser}
