@@ -1,54 +1,64 @@
-import { useEffect, useState } from 'react'
-import { getUser } from '../services/user.service';
-import './Comment.css'
+import { useEffect, useState } from "react";
+import { getUser } from "../services/user.service";
+import "./Comment.css";
+import moment from "moment";
 
+export default function Comment({ comment }) {
+  const [userComment, setUserComment] = useState(null);
 
-export default function Comment ( {comment}){
-   
-      const [userComment, setUserComment] = useState(null)
+  useEffect(() => {
+    const getUserDB = async () => {
+      const user = await getUser(comment.user_id);
+      setUserComment(user);
+    };
 
+    getUserDB();
+  }, []);
 
-
-    useEffect(() => {
-        
-        const getUserDB = async () => {
-          const user = await getUser(comment.user_id);
-          setUserComment(user);
-        };
-    
-        getUserDB();
-      }, []);
-
-      console.log(userComment)
+  console.log(userComment);
 
   return (
     <>
-        {userComment &&   <table className="comment">
-        <tbody>
+      {userComment && (
+        <table className="comment">
+          <tbody>
             <tr>
-                <td></td>
-                <td valign="top" className="votelinks">
-      <center><a id="up_31821904" href="vote?id=31821904&amp;how=up&amp;goto=item%3Fid%3D31821269"><div className="votearrow" title="upvote"></div></a></center>    </td>            </tr>
-         <td>
-            <div>
-                <span>
-                    <a href={`user/${userComment.email}`}>{userComment.nickname} </a>
+
+              <td valign="top" className="votelinks">
+                <a
+                  id="up_31821904"
+                  href="vote?id=31821904&amp;how=up&amp;goto=item%3Fid%3D31821269"
+                >
+                  <div className="arrow2" title="upvote"></div>
+                </a>{" "}
+              </td>
+              <td>
+                <div>
+                  <span>
+                    <a className="boxhead" href={`user/${userComment.email}`}>
+                      {userComment.nickname}{" "}
+                    </a>
                     <span>
-                      40 min ago
+                      {moment(
+                        new Date(comment.created_at.seconds * 1000)
+                      ).fromNow()}
                     </span>
-                </span>
-            
-            </div>
-            <div> 
-                <span>{comment.text}</span>
-               <div><p>...</p></div>
-            </div>
-         </td>
-        </tbody>
-    </table>}
-
+                  </span>
+                </div>
+                <tr>
+                  <td></td>
+                </tr>
+                <div>
+                  <span className="comment">{comment.text}</span>
+                  <div>
+                    <a><p className="reply">reply</p></a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
     </>
-  
-  )
-
+  );
 }

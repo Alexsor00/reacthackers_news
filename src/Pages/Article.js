@@ -121,7 +121,7 @@ export default function Article ({currentUser}){
                 <textarea onChange={handleChange} name="text" rows="8" cols="80" value = {commentText}></textarea>
                 <br></br>
                 <br></br>
-          <input type="submit" onClick={submit} value="add comment"></input>
+          <input type="submit" className="submit" onClick={submit} value="add comment"></input>
                 </form>
 
 
@@ -131,8 +131,7 @@ export default function Article ({currentUser}){
        </tbody>
    </table>
  
-    <br />
-    <br />
+
    <table className="aTable"> 
        <tbody>
          {comments && comments.map((comment) =><tr><td><Comment comment={comment}/></td></tr>)}
