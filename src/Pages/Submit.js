@@ -1,9 +1,9 @@
 import { useState } from "react";
-import {Link, Routes, Route, useNavigate} from 'react-router-dom';
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
 import { createArticle } from "../services/articles.service";
 import "./Submit.css";
-export default function Submit({currentUser}) {
+export default function Submit({ currentUser }) {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({});
@@ -11,15 +11,15 @@ export default function Submit({currentUser}) {
   const submit = async (e) => {
     e.preventDefault();
     try {
-     await createArticle(form.title, form.url, form.body, currentUser)
-     navigate('/');
+      await createArticle(form.title, form.url, form.body, currentUser);
+      navigate("/");
     } catch (error) {
-      if(error.status === 0){
-        alert(error.body)
+      if (error.status === 0) {
+        alert(error.body);
         return;
       }
     }
-  }
+  };
 
   const handleChange = (e) => {
     setForm({
@@ -79,12 +79,11 @@ export default function Submit({currentUser}) {
                       </td>
                     </tr>
                     <tr>
-                        <td>
+                      <td>
                         <span className="separatOR">
-                        <b>or</b>
-                      </span>
-                        </td>
-                     
+                          <b>or</b>
+                        </span>
+                      </td>
                     </tr>
                     <tr className="bodyRow">
                       <td>
@@ -106,7 +105,11 @@ export default function Submit({currentUser}) {
                     </tr>
                     <tr>
                       <td>
-                        <input className="submitlabel" type="submit" onClick={submit}></input>
+                        <input
+                          className="submitlabel"
+                          type="submit"
+                          onClick={submit}
+                        ></input>
                       </td>
                     </tr>
                     <tr style={{ height: "20px" }}></tr>

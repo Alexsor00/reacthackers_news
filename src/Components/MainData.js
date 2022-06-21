@@ -10,6 +10,7 @@ export default function MainData() {
     const getDBArticles = async () => {
       const data = await getArticles();
       setArticles(data);
+      
     };
     getDBArticles();
   }, []);
