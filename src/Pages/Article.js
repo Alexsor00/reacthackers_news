@@ -98,7 +98,7 @@ export default function Article ({currentUser}){
               new Date(article.created_at.seconds * 1000)
             ).fromNow()}
           </a>{" "}
-          | hide |<a> 171 Comments</a>
+          | hide |<a> {comments && comments.length}</a>
         </td>
       </tr>
       
