@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticle } from "../services/articles.service";
-import { getCommentsArticle } from "../services/comments.service";
+import { createComment, getCommentsArticle } from "../services/comments.service";
 import { getUser } from "../services/user.service";
 import moment from "moment";
 
 import './Article.css'
+import Comment from "../Components/Comment";
 
 export default function Article ({currentUser}){
     const { article_id } = useParams();
@@ -14,17 +15,21 @@ export default function Article ({currentUser}){
 
     const [comments, setComments] = useState(null)
     const [article, setArticle] = useState(null)
-    useEffect(() => {
+    const [commentText, setCommentText] = useState("")
+
         const getDBArticles = async () => {
           const data = await getArticle(article_id);
           setArticle(data);
+          return data;
         };
-        getDBArticles();
-      }, []);
+      
 
       useEffect(() => {
+        
         const getUserDB = async () => {
-          const user = await getUser(article.autor_email);
+         const data = await getDBArticles();
+
+          const user = await getUser(data.autor_email);
           setUser(user);
         };
     
@@ -33,24 +38,36 @@ export default function Article ({currentUser}){
 
     useEffect(() => {
         const getCommentsArticleDB = async () => {
-          const data = await getCommentsArticle(article.id);
+          const data_article = await getDBArticles();
+          const data = await getCommentsArticle(data_article.id);
+          console.log(data)
           setComments(data);
         };
         getCommentsArticleDB();
       }, []);
  
-      console.log(comments)
 
-  const handleClick = () => {
-   /*
-CREATE THE COMMENT
-   */
-}
+      const submit = async (e) => {
+        e.preventDefault();
+        try {
+          console.log("id: " + user.email)
+          await createComment(article.id, commentText, user.email);
+        } catch (error) {
+          if (error.status === 0) {
+            alert(error.body);
+            return;
+          }
+        }
+      };
 
+      const handleChange = (e) => {
+        setCommentText(e.target.value)
+      }
 
       return (
         <>
-      {article && 
+      {article && user && 
+      <>
        <table className="aTable">
        <tbody className="body">
         <tr className="separator"><td></td></tr>
@@ -101,10 +118,10 @@ CREATE THE COMMENT
             <td>
 
                 <form className="addComment">
-                <textarea name="text" rows="8" cols="80"></textarea>
+                <textarea onChange={handleChange} name="text" rows="8" cols="80" value = {commentText}></textarea>
                 <br></br>
                 <br></br>
-          <input type="submit" onClick={handleClick} value="add comment"></input>
+          <input type="submit" onClick={submit} value="add comment"></input>
                 </form>
 
 
@@ -112,7 +129,20 @@ CREATE THE COMMENT
            </tr>
 
        </tbody>
-   </table>}
+   </table>
+ 
+    <br />
+    <br />
+   <table className="aTable"> 
+       <tbody>
+         {comments && comments.map((comment) =><tr><td><Comment comment={comment}/></td></tr>)}
+
+       </tbody>
+   </table>
+
+   </>
+
+   }
        
         </>
       )

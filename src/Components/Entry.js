@@ -4,28 +4,25 @@ import "./Entry.css";
 import moment from "moment";
 import { upvote } from "../controllers/article.controller";
 import { getArticle } from "../services/articles.service";
+import { getCommentsArticle } from "../services/comments.service";
 
 export default function Entry({ article, index }) {
   const [user, setUser] = useState(null);
+  const [comments, setComments] = useState(null) 
 
   const [currentArticle, setCurrentArticle] = useState(article);
-  useEffect(() => {
-    const getUserDB = async () => {
-      const user = await getUser(article.autor_email);
-      setUser(user);
-    };
-
-    getUserDB();
-  }, []);
 
   useEffect(() => {
-    const getArticleDB = async () => {
+    const getAllData = async () => {
       const articleDB = await getArticle(article.id);
       setCurrentArticle(articleDB);
-      console.log(currentArticle);
-    };
+      const commentsArticleDB = await getCommentsArticle(article.id);
+      setComments(commentsArticleDB)
+      const user = await getUser(article.autor_email);
+      setUser(user);
+        };
 
-    getArticleDB();
+    getAllData();
   }, []);
 
   const handleClick = async () => {
@@ -75,7 +72,7 @@ export default function Entry({ article, index }) {
               new Date(currentArticle.created_at.seconds * 1000)
             ).fromNow()}
           </a>{" "}
-          | hide |<a> 171 Comments</a>
+          | hide |<a> {comments ? comments.length : 0} comments</a>
         </td>
       </tr>
     </>

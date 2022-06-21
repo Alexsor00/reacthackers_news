@@ -11,7 +11,7 @@ const commentsCollectionRef = collection(db, "comments");
 
 
 
-const createUser = async (newArticle_id, newText, newUser_id) => {
+const createComment = async (newArticle_id, newText, newUser_id) => {
     try {
      if(newText === undefined || newText.match(/^ *$/) !== null) {
          alert("No hay comentario creado");
@@ -41,4 +41,4 @@ const getCommentsArticle = async (article_id) => {
 }
 
 
-export {createUser, getCommentsArticle}
+export {createComment, getCommentsArticle}

@@ -14,8 +14,6 @@ export default function MainData() {
     getDBArticles();
   }, []);
 
- 
-
   return (
     <table className="mainTable">
       <tbody>
