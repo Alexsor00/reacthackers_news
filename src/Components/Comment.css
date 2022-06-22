@@ -15,12 +15,14 @@
 
 }
 
-.boxhead a {
+.boxhead{
     text-decoration: none;
 }
 
 
 .reply {
+    text-decoration: none;
+    color: #828282;
     font-size: 8pt;
     margin-left: 10px;
 }

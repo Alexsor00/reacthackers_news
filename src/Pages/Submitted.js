@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getArticles, getArticles_byUser } from "../services/articles.service";
+import { getArticles_byUser } from "../services/articles.service";
 import { useParams } from "react-router-dom";
 
 import Entry from "../Components/Entry";

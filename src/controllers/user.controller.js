@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { createUser, getUser, getUsers } from "../services/user.service";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
 function ExceptionUser(msg) {
   this.body = msg;

@@ -38,6 +38,14 @@ const createComment = async (newArticle_id, newText, newUser_id, newReplyComment
 
   }
 
+  const getComments = async () => {
+    const data = await getDocs(commentsCollectionRef);
+    const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    return d;
+  };
+
+
   const getComment = async (id) => {
     const data = await getDocs(commentsCollectionRef);
     const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -61,4 +69,4 @@ const getCommentsArticle = async (article_id) => {
 }
 
 
-export {createComment, getCommentsArticle, getComment, getReplyComments}
+export {createComment, getCommentsArticle, getComment, getReplyComments, getComments}

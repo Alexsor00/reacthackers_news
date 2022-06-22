@@ -9,23 +9,28 @@ import {
 
 const articlesCollectionRef = collection(db, "articles");
 
+
+function ExceptionArticle(msg, status) {
+  this.body = msg;
+  this.nombre = "ExceptionArticle";
+  this.status = status;
+}
+
+
 const createArticle = async (newTitle, newUrl, newBody, user) => {
-  try {
-    if (newTitle === undefined || newTitle.match(/^ *$/) !== null) {
-      alert("Titulo no introducido");
-      return false;
-    } else if (newUrl === undefined || newUrl.match(/^ *$/) !== null) {
-      if (newBody === undefined || newBody.match(/^ *$/)) {
-        alert("El campo de texto o url debe de estar rellenado");
-        return false;
+    if (!user) {
+      throw new ExceptionArticle("Debes de estar logeado para poder crear un articulo", 0);
+    }
+    else if (newTitle.match(/^ *$/)) {
+      throw new ExceptionArticle("Titulo no introducido", 1);
+    } else if (newUrl.match(/^ *$/)) {
+      if (newBody.match(/^ *$/)) {
+        throw new ExceptionArticle("El campo de texto o url debe de estar rellenado", 1);
       }
-    } else if (newBody !== undefined && newUrl !== undefined) {
-      alert(
-        "Únicamente se podrá crear un artículo con URL o con texto, nunca las dos a la vez"
-      );
-      return false;
-    } 
-     if (newBody === undefined) {
+    } else if (!newBody.match(/^ *$/) && !newUrl.match(/^ *$/)) {
+      throw new ExceptionArticle("Únicamente se podrá crear un artículo con URL o con texto, nunca las dos a la vez", 1);
+    }  
+     if (newBody.match(/^ *$/)) {
       await addDoc(articlesCollectionRef, {
         title: newTitle,
         url: newUrl,
@@ -36,7 +41,7 @@ const createArticle = async (newTitle, newUrl, newBody, user) => {
       });
       return true;
     } 
-       else if (newUrl === undefined) {
+       else if (newUrl.match(/^ *$/)) {
       await addDoc(articlesCollectionRef, {
         title: newTitle,
         text: newBody,
@@ -47,14 +52,11 @@ const createArticle = async (newTitle, newUrl, newBody, user) => {
       });
       return true;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  
 };
 
 const upvoteArticle = async (id, points) => {
   const articleDoc = doc(db, "articles", id);
-  console.log(points);
   const newFields = { points: points + 1 };
   await updateDoc(articleDoc, newFields);
 };

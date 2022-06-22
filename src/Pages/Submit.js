@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { createArticle } from "../services/articles.service";
 import "./Submit.css";
 export default function Submit({ currentUser }) {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({title: "", url: "", body: ""});
 
   const submit = async (e) => {
     e.preventDefault();
@@ -14,9 +14,16 @@ export default function Submit({ currentUser }) {
       await createArticle(form.title, form.url, form.body, currentUser);
       navigate("/");
     } catch (error) {
-      if (error.status === 0) {
-        alert(error.body);
-        return;
+      alert(error.body);
+      switch (error.status) {
+        case 0:
+          navigate("/login");
+          break;
+        case 1:
+          navigate("/submit");
+          break;
+        default:
+          navigate("/");
       }
     }
   };

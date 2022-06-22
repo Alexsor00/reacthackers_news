@@ -6,19 +6,17 @@ import { getReplyComments } from "../services/comments.service";
 
 export default function Comment({ comment }) {
   const [userComment, setUserComment] = useState(null);
-  const [replies, setReplies] = useState(null)
+
+  const [replies, setReplies] = useState(null);
   useEffect(() => {
     const getUserDB = async () => {
       const user = await getUser(comment.user_id);
       setUserComment(user);
       const dataReplies = await getReplyComments(comment.id);
       setReplies(dataReplies);
-      console.log(dataReplies)
     };
-
     getUserDB();
   }, []);
-
 
   return (
     <>
@@ -26,7 +24,6 @@ export default function Comment({ comment }) {
         <table className="comment">
           <tbody>
             <tr>
-
               <td valign="top" className="votelinks">
                 <a
                   id="up_31821904"
@@ -48,30 +45,32 @@ export default function Comment({ comment }) {
                     </span>
                   </span>
                 </div>
-                <tr>
-                  <td></td>
-                </tr>
+               
                 <div>
                   <span className="comment">{comment.text}</span>
                   <div>
-                    <a href={`/reply/${comment.id}`}><p className="reply">reply</p></a>
+                    <a href={`/reply/${comment.id}`}>
+                      <p className="reply">reply</p>
+                    </a>
                   </div>
                 </div>
               </td>
             </tr>
-         
-
           </tbody>
         </table>
       )}
-
-<table className="replyTable"> 
-
-       <tbody>
-        
-         {replies && replies.map((reply) => <tr><td><Comment comment={reply}/></td></tr>)}
-
-       </tbody>
-   </table>    </>
+      <table className="replyTable">
+        <tbody>
+          {replies &&
+            replies.map((reply, index) => (
+              <tr   key={index}>
+                <td>
+                  <Comment comment={reply} />
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>{" "}
+    </>
   );
 }

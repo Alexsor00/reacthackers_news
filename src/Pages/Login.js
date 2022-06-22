@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { createUser, getUser } from "../services/user.service";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginUser, singUpUser } from "../controllers/user.controller";
 export default function Login({ setCurrentUser }) {
   const navigate = useNavigate();

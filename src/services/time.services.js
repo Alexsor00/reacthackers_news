@@ -18,8 +18,6 @@ function timeSince(timeStamp) {
     }
   }
   
-  const currentTimeStamp = new Date().getTime();
   
-  console.log(timeSince(currentTimeStamp));
 
   export {timeSince}

@@ -5,15 +5,18 @@
     border: 0;
     height: 10px;
     margin-top: 0.5rem;
+
 }
-.footerText{
-    line-height: 12pt;
+.footerText a{
+    text-decoration:none;
+    color: black !important;
+
     height: 10px;
     font-size: 13.333px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: black !important;
 }
 .login {
+
    float: right;
    height: 10px;
    font-size: 13.333px;
@@ -21,6 +24,7 @@
 
 }
 .title{
+
     color: black !important;
 
     font-size: 13.3333px;
