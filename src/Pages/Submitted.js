@@ -19,8 +19,8 @@ export default function Submitted() {
     <table className="mainTable">
       <tbody>
         {articles !== null &&
-          articles.map((article, index) => {
-            return <Entry article={article} index={index} />;
+          articles.map((article, index) => {  
+            return <Entry article={article} index={index} currentUser={user_email} />;
           })}
       </tbody>
     </table>

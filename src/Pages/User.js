@@ -18,7 +18,7 @@ export default function User({ currentUser }) {
 
   return (
     <>
-      {seen_user !== null && (
+      {seen_user && (
         <center>
           <Header currentUser={currentUser} />
           <table className="main_user">
