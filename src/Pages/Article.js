@@ -54,7 +54,7 @@ export default function Article({ currentUser }) {
     e.preventDefault();
     try {
       await createComment(article.id, commentText, user.email, -1);
-      const d = await getComments();
+      const d = await getCommentsArticle(article.id);
       setComments(d);
     } catch (error) {
       if (error.status === 0) {
