@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticle } from "../services/articles.service";
-import { createComment, getCommentsArticle } from "../services/comments.service";
+import { createComment, getCommentsArticle, getReplyComments } from "../services/comments.service";
 import { getUser } from "../services/user.service";
 import moment from "moment";
 
@@ -31,6 +31,9 @@ export default function Article ({currentUser}){
 
           const user = await getUser(data.autor_email);
           setUser(user);
+
+          
+         
         };
     
         getUserDB();
@@ -51,7 +54,7 @@ export default function Article ({currentUser}){
         e.preventDefault();
         try {
           console.log("id: " + user.email)
-          await createComment(article.id, commentText, user.email);
+            await createComment(article.id, commentText, user.email, -1);
         } catch (error) {
           if (error.status === 0) {
             alert(error.body);
@@ -82,7 +85,7 @@ export default function Article ({currentUser}){
             </a>
         </td>
         <td className="title">
-            <a href={`article/${article.id}`}>{article.title}</a>{" "}
+            <a href={`/article/${article.id}`}>{article.title}</a>{" "}
           </td>
        
         
@@ -91,7 +94,7 @@ export default function Article ({currentUser}){
       <td ></td>
       <td className="subtext">
           <span>{article.points} points</span> by
-          {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}
+          {user !== null && <a href={`/user/${user.email}`}> {user.nickname}</a>}
           <a>
             {" "}
             {moment(
@@ -134,7 +137,11 @@ export default function Article ({currentUser}){
 
    <table className="aTable"> 
        <tbody>
-         {comments && comments.map((comment) =><tr><td><Comment comment={comment}/></td></tr>)}
+         {comments && comments.map((comment) => {
+            console.log(comment.replyComment_id)
+            return comment.replyComment_id === -1 ? <tr><td><Comment comment={comment}/></td></tr> : <></>
+
+         })}
 
        </tbody>
    </table>

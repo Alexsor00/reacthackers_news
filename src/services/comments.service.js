@@ -11,13 +11,15 @@ const commentsCollectionRef = collection(db, "comments");
 
 
 
-const createComment = async (newArticle_id, newText, newUser_id) => {
+const createComment = async (newArticle_id, newText, newUser_id, newReplyComment_id) => {
+
+  
     try {
      if(newText === undefined || newText.match(/^ *$/) !== null) {
          alert("No hay comentario creado");
          return false;
      } 
-      await addDoc(commentsCollectionRef, {article_id: newArticle_id, text: newText, user_id: newUser_id, points: 0, created_at: new Date()});
+     await addDoc(commentsCollectionRef, {article_id: newArticle_id, text: newText, user_id: newUser_id, points: 0, created_at: new Date(), replyComment_id: newReplyComment_id});
       return true;
     } catch (error) {
      
@@ -25,6 +27,24 @@ const createComment = async (newArticle_id, newText, newUser_id) => {
     
   
   };
+
+  const getReplyComments = async (id) => {
+   
+    const data = await getDocs(commentsCollectionRef);
+    const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const result = d.filter((comment) => comment.replyComment_id === id);
+    return result;
+
+
+  }
+
+  const getComment = async (id) => {
+    const data = await getDocs(commentsCollectionRef);
+    const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const result = d.filter((comment) => comment.id === id);
+    return result[0];
+  };
+
 
 const getCommentsArticle = async (article_id) => {
     let dataComments = []
@@ -41,4 +61,4 @@ const getCommentsArticle = async (article_id) => {
 }
 
 
-export {createComment, getCommentsArticle}
+export {createComment, getCommentsArticle, getComment, getReplyComments}

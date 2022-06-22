@@ -10,6 +10,8 @@ import User from "../Pages/User";
 import Submitted from "../Pages/Submitted";
 import Newest from "../Pages/Newest";
 import Article from "../Pages/Article";
+import Reply from "../Pages/Reply";
+import HeaderAddComment from "./HeaderAddComment";
 
 
 export default function MainPage (){
@@ -30,6 +32,7 @@ export default function MainPage (){
          <Route path="/submited/:user_email" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Submitted /><Footer /></center>} />  
          <Route exact path="/newest" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Newest /><Footer /></center>} />
          <Route path="/article/:article_id" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Article currentUser={currentUser}/><Footer /></center>} />  
+         <Route path="/reply/:comment_id" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Reply currentUser={currentUser}/></center>} />  
 
               <Route exact path="/" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><MainData /><Footer /></center>} />
                <Route exact path="/submit" element= {<Submit currentUser={currentUser} />} />  

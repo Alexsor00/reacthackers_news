@@ -2,20 +2,23 @@ import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import "./Comment.css";
 import moment from "moment";
+import { getReplyComments } from "../services/comments.service";
 
 export default function Comment({ comment }) {
   const [userComment, setUserComment] = useState(null);
-
+  const [replies, setReplies] = useState(null)
   useEffect(() => {
     const getUserDB = async () => {
       const user = await getUser(comment.user_id);
       setUserComment(user);
+      const dataReplies = await getReplyComments(comment.id);
+      setReplies(dataReplies);
+      console.log(dataReplies)
     };
 
     getUserDB();
   }, []);
 
-  console.log(userComment);
 
   return (
     <>
@@ -35,7 +38,7 @@ export default function Comment({ comment }) {
               <td>
                 <div>
                   <span>
-                    <a className="boxhead" href={`user/${userComment.email}`}>
+                    <a className="boxhead" href={`/user/${userComment.email}`}>
                       {userComment.nickname}{" "}
                     </a>
                     <span>
@@ -51,14 +54,24 @@ export default function Comment({ comment }) {
                 <div>
                   <span className="comment">{comment.text}</span>
                   <div>
-                    <a><p className="reply">reply</p></a>
+                    <a href={`/reply/${comment.id}`}><p className="reply">reply</p></a>
                   </div>
                 </div>
               </td>
             </tr>
+         
+
           </tbody>
         </table>
       )}
-    </>
+
+<table className="replyTable"> 
+
+       <tbody>
+        
+         {replies && replies.map((reply) => <tr><td><Comment comment={reply}/></td></tr>)}
+
+       </tbody>
+   </table>    </>
   );
 }

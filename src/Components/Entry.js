@@ -50,7 +50,7 @@ export default function Entry({ article, index }) {
         </td>
         {currentArticle.url === undefined ? (
           <td className="title">
-            <a href={`article/${currentArticle.id}`}>{currentArticle.title}</a>{" "}
+            <a href={`/article/${currentArticle.id}`}>{currentArticle.title}</a>{" "}
           </td>
         ) : (
           <td className="title">
@@ -65,7 +65,7 @@ export default function Entry({ article, index }) {
         <td colSpan={2}></td>
         <td className="subtext">
           <span>{currentArticle.points} points</span> by
-          {user !== null && <a href={`user/${user.email}`}> {user.nickname}</a>}
+          {user !== null && <a href={`/user/${user.email}`}> {user.nickname}</a>}
           <a>
             {" "}
             {moment(
