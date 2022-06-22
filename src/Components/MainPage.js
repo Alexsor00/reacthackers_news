@@ -28,7 +28,7 @@ export default function MainPage (){
          <Routes> 
          <Route path="/user/:user_email" element= {<User currentUser={currentUser}/>} />  
          <Route path="/submited/:user_email" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Submitted /><Footer /></center>} />  
-         <Route exact path="/newest" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Newest /><Footer /></center>} />
+         <Route exact path="/newest" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Newest currentUser/><Footer /></center>} />
          <Route path="/article/:article_id" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Article currentUser={currentUser}/><Footer /></center>} />  
          <Route path="/reply/:comment_id" element= {<center><Header currentUser={currentUser} setCurrentUser={setCurrentUser}/><Reply currentUser={currentUser}/></center>} />  
 
