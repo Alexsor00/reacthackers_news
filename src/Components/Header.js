@@ -10,14 +10,14 @@ export default function Header({ currentUser, setCurrentUser }) {
     <table className="footer">
       <tbody>
         <tr>
-          <td className="title">
-            <a>
+          <td className="footerText">
+            <a href="/">
               <b>Hackers News</b>
             </a>
           </td>
           <td className="footerText">
             <a href="/newest"> new</a> |<a> threads</a> |<a> past </a> |
-            <a> comments</a> |<a> ask</a> |<a> show</a> |<a> jobs</a> |
+            <a href="/comments"> comments</a> |<a> ask</a> |<a> show</a> |<a> jobs</a> |
             <a href="/submit"> submit</a> |
           </td>
           <td className="login">
@@ -26,7 +26,7 @@ export default function Header({ currentUser, setCurrentUser }) {
             ) : (
               <span className="login">
                 {" "}
-                <a> {currentUser.nickname}</a>(<span>{currentUser.points}</span>
+                <a href={`/user/${currentUser.email}`}> {currentUser.nickname}</a>(<span>{currentUser.points}</span>
                 ) | <a onClick={logout}>Logout</a>
               </span>
             )}

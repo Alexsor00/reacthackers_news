@@ -49,6 +49,7 @@ const createComment = async (newArticle_id, newText, newUser_id, newReplyComment
     const data = await getDocs(commentsCollectionRef);
     const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const result = d.filter((comment) => comment.user_id === user_id);
+    console.log(result)
     return result;
   };
   

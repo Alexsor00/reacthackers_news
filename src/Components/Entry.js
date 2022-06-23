@@ -17,40 +17,47 @@ export default function Entry({ article, index, currentUser }) {
   const [comments, setComments] = useState(null);
   const [upvoted, setUpvoted] = useState(null);
   const [currentArticle, setCurrentArticle] = useState(article);
+  const [articlePoints, setArticlePoints] = useState(null)
 
   useEffect(() => {
     const getAllData = async () => {
       const articleDB = await getArticle(article.id);
       setCurrentArticle(articleDB);
+      setArticlePoints(articleDB.points)
       const commentsArticleDB = await getCommentsArticle(article.id);
       setComments(commentsArticleDB);
       const user = await getUser(article.autor_email);
       setUser(user);
       const upvoteDB = await isUpvoted(currentUser.email, article.id);
       setUpvoted(upvoteDB);
+
     };
     getAllData();
   }, []);
   const upvoteArticle = async () => {
     await upvote(
       article.id,
-      currentArticle.points,
+      articlePoints,
       article.id,
       currentUser.email
     );
 
     const upvoteDB = await isUpvoted(currentUser.email, article.id);
-    setUpvoted(upvoteDB);
+    setUpvoted(upvoteDB);  
+    
+      setArticlePoints(articlePoints +  1)
+
   };
 
   const unvoteArticle = async () => {
     
-    
-      await unvote(upvoted.id, article.id, currentArticle.points);
+
+      await unvote(upvoted.id, article.id, articlePoints);
     
       const upvoteDB = await isUpvoted(currentUser.email, article.id);
       setUpvoted(upvoteDB);
-    
+      setArticlePoints(articlePoints -  1)
+
  
   };
 
@@ -69,7 +76,7 @@ export default function Entry({ article, index, currentUser }) {
             <td valign="top" className="votelinks">
               <center>
                 {upvoted && !upvoted.isvoted && (
-                  <a onClick={upvoteArticle}>
+                  <a a href="/#" onClick={upvoteArticle}>
                     <div className="arrow_upvote" title="upvote"></div>
                   </a>
                 ) }
@@ -93,7 +100,7 @@ export default function Entry({ article, index, currentUser }) {
           <tr>
             <td colSpan={2}></td>
             <td className="subtext">
-              <span>{currentArticle.points} points</span> by
+              <span>{articlePoints} points</span> by
               {user !== null &&
               currentUser !== null &&
               user.nickname === currentUser.nickname ? (
@@ -110,8 +117,8 @@ export default function Entry({ article, index, currentUser }) {
                   new Date(currentArticle.created_at.seconds * 1000)
                 ).fromNow()}
               </a>{" "}
-              {upvoted && upvoted.isvoted && (<span> <a onClick={unvoteArticle}>| unvote </a></span>) }
-              | hide |<a> {comments ? comments.length : 0} comments</a>
+              {upvoted && upvoted.isvoted && (<span> <a href="/#" onClick={unvoteArticle}>| unvote </a></span>) }
+              | hide |<a href={`/article/${currentArticle.id}`}> {comments ? comments.length : 0} comments</a>
             </td>
           </tr>{" "}
         </>

@@ -53,7 +53,7 @@ export default function Article({ currentUser }) {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await createComment(article.id, commentText, user.email, -1);
+      await createComment(article.id, commentText, currentUser.email, -1);
       const d = await getCommentsArticle(article.id);
       setComments(d);
     } catch (error) {
