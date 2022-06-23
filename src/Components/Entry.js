@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import "./Entry.css";
 import moment from "moment";
-import { upvote } from "../controllers/article.controller";
+import { unvote, upvote } from "../controllers/article.controller";
 import { getArticle } from "../services/articles.service";
 import { getCommentsArticle } from "../services/comments.service";
+import {
+  createUpvote,
+  deleteUpvote,
+  getUpvotes,
+  isUpvoted,
+} from "../services/upvotes.services";
 
 export default function Entry({ article, index, currentUser }) {
   const [user, setUser] = useState(null);
   const [comments, setComments] = useState(null);
-
+  const [upvoted, setUpvoted] = useState(null);
   const [currentArticle, setCurrentArticle] = useState(article);
 
   useEffect(() => {
@@ -20,14 +26,32 @@ export default function Entry({ article, index, currentUser }) {
       setComments(commentsArticleDB);
       const user = await getUser(article.autor_email);
       setUser(user);
+      const upvoteDB = await isUpvoted(currentUser.email, article.id);
+      setUpvoted(upvoteDB);
     };
     getAllData();
   }, []);
+  const upvoteArticle = async () => {
+    await upvote(
+      article.id,
+      currentArticle.points,
+      article.id,
+      currentUser.email
+    );
 
-  const handleClick = async () => {
-    await upvote(article.id, currentArticle.points);
-    const articleDB = await getArticle(article.id);
-    setCurrentArticle(articleDB);
+    const upvoteDB = await isUpvoted(currentUser.email, article.id);
+    setUpvoted(upvoteDB);
+  };
+
+  const unvoteArticle = async () => {
+    
+    
+      await unvote(upvoted.id, article.id, currentArticle.points);
+    
+      const upvoteDB = await isUpvoted(currentUser.email, article.id);
+      setUpvoted(upvoteDB);
+    
+ 
   };
 
   return (
@@ -44,9 +68,11 @@ export default function Entry({ article, index, currentUser }) {
             </td>
             <td valign="top" className="votelinks">
               <center>
-                <a onClick={handleClick}>
-                  <div className="arrow" title="upvote"></div>
-                </a>
+                {upvoted && !upvoted.isvoted && (
+                  <a onClick={upvoteArticle}>
+                    <div className="arrow_upvote" title="upvote"></div>
+                  </a>
+                ) }
               </center>
             </td>
             {currentArticle.url === undefined ? (
@@ -84,6 +110,7 @@ export default function Entry({ article, index, currentUser }) {
                   new Date(currentArticle.created_at.seconds * 1000)
                 ).fromNow()}
               </a>{" "}
+              {upvoted && upvoted.isvoted && (<span> <a onClick={unvoteArticle}>| unvote </a></span>) }
               | hide |<a> {comments ? comments.length : 0} comments</a>
             </td>
           </tr>{" "}

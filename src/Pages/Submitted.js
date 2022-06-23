@@ -7,7 +7,6 @@ export default function Submitted() {
   const { user_email } = useParams();
 
   const [articles, setArticles] = useState(null);
-  console.log(articles);
   useEffect(() => {
     const getDBArticles = async () => {
       const data = await getArticles_byUser(user_email);

@@ -61,6 +61,12 @@ const upvoteArticle = async (id, points) => {
   await updateDoc(articleDoc, newFields);
 };
 
+const unvoteArticle = async (id, points) => {
+  const articleDoc = doc(db, "articles", id);
+  const newFields = { points: points - 1 };
+  await updateDoc(articleDoc, newFields);
+};
+
 const getArticles = async () => {
   const data = await getDocs(articlesCollectionRef);
   const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -105,4 +111,5 @@ export {
   getArticles_byUser,
   get_OrderedArticles,
   upvoteArticle,
+  unvoteArticle,
 };

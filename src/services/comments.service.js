@@ -45,6 +45,15 @@ const createComment = async (newArticle_id, newText, newUser_id, newReplyComment
     return d;
   };
 
+  const getCommentsby_User = async (user_id) => {
+    const data = await getDocs(commentsCollectionRef);
+    const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const result = d.filter((comment) => comment.user_id === user_id);
+    return result;
+  };
+  
+
+
 
   const getComment = async (id) => {
     const data = await getDocs(commentsCollectionRef);
@@ -69,4 +78,4 @@ const getCommentsArticle = async (article_id) => {
 }
 
 
-export {createComment, getCommentsArticle, getComment, getReplyComments, getComments}
+export {createComment, getCommentsArticle, getComment, getReplyComments, getComments, getCommentsby_User}

@@ -25,39 +25,34 @@ export default function User({ currentUser }) {
             <tbody className="main_user">
               <tr>
                 <td style={{ width: "10px" }}>user: </td>
-                <td>{seen_user.nickname}</td>
+                <td style={{ color: "black" }}>{seen_user.nickname}</td>
               </tr>
               <tr>
                 <td>created: </td>
-                <td>
+                <td style={{ color: "black" }}>
                   {new Date(seen_user.created_at.seconds * 1000).toGMTString()}
                 </td>
               </tr>
               <tr>
                 <td>karma: </td>
-                <td>{seen_user.points}</td>
+                <td style={{ color: "black" }}>{seen_user.points}</td>
               </tr>
               <tr>
                 <td>about: </td>
               </tr>
               <tr>
-                <td></td>
-                <td >
-                  <a href={`/submited/${user_email}`}>submissions</a>
+                <td ></td>
+                <td  >
+                  <a style={{ color: "black" }} href={`/submited/${user_email}`}>submissions</a>
                 </td>
               </tr>
               <tr>
                 <td></td>
                 <td>
-                  <a href="">comments</a>
+                  <a style={{ color: "black" }} href={`/comments/${user_email}`}>comments</a>
                 </td>
               </tr>
-              <tr>
-                <td></td>
-                <td>
-                  <a href="">favorites</a>
-                </td>
-              </tr>
+             
             </tbody>
           </table>
         </center>
