@@ -1,10 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  createComment,
-  getComment,
-} from "../services/comments.service";
+import { createComment, getComment } from "../services/comments.service";
 import { getUser } from "../services/user.service";
 
 import "./Reply.css";

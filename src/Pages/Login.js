@@ -19,7 +19,8 @@ export default function Login({ setCurrentUser }) {
       await singUpUser(
         form.nickname_signup,
         form.password_signup,
-        form.email_signup
+        form.email_signup,
+        setCurrentUser
       );
       navigate("/");
     } catch (error) {

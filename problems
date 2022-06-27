@@ -1,6 +1,5 @@
-1. La manera en que los puntos de cada artículo se updatean es paralelo. Es decir, en la base de datos actualizamos los puntos pero cuando lo renderizamos no obtenemos los puntos de la base de datos actuailizada si no de un parametro de estado que se va sumando 1 cada vez que suma uno en la base de datos 
-2. En el momento de ver los articulos de un usuario concreto, cuando estamos en la vista de ver todos sus articulos si le accedemos al usuario la URL se añade a la URL y no redirige donde debería
 3. Mejorar lógica de saber si es un texto con URL o con Body
 4. En la página Article.js la manera en que se inicializan los datos con hooks y funciones no se si es la correcta 
 5. Lanzar las expcepciones de los servicios en vez de en los controladores.
 6. Al votar si se clica muy rapido la flecha para hacer upvote se crean el la Base de datos tantos upvotes como clics.
+7. Warnings en los hooks sobre variables de entrada. (UseEffect)

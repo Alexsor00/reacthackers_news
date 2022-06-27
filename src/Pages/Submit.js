@@ -6,7 +6,7 @@ import "./Submit.css";
 export default function Submit({ currentUser }) {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({title: "", url: "", body: ""});
+  const [form, setForm] = useState({ title: "", url: "", body: "" });
 
   const submit = async (e) => {
     e.preventDefault();

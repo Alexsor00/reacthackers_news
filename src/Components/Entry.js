@@ -2,63 +2,64 @@ import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import "./Entry.css";
 import moment from "moment";
-import { unvote, upvote } from "../controllers/article.controller";
+import { unvote, upvoteArticleDB } from "../controllers/article.controller";
 import { getArticle } from "../services/articles.service";
 import { getCommentsArticle } from "../services/comments.service";
-import {
-  createUpvote,
-  deleteUpvote,
-  getUpvotes,
-  isUpvoted,
-} from "../services/upvotes.services";
+import { isUpvotedArticle } from "../services/upvotes.services";
 
 export default function Entry({ article, index, currentUser }) {
   const [user, setUser] = useState(null);
   const [comments, setComments] = useState(null);
   const [upvoted, setUpvoted] = useState(null);
   const [currentArticle, setCurrentArticle] = useState(article);
-  const [articlePoints, setArticlePoints] = useState(null)
+  const [articlePoints, setArticlePoints] = useState(null);
 
+   /**
+     * Gets the necessary data for Initialization.
+     * @return [returns nothing]
+     */ 
   useEffect(() => {
     const getAllData = async () => {
       const articleDB = await getArticle(article.id);
       setCurrentArticle(articleDB);
-      setArticlePoints(articleDB.points)
+      setArticlePoints(articleDB.points);
       const commentsArticleDB = await getCommentsArticle(article.id);
       setComments(commentsArticleDB);
       const user = await getUser(article.autor_email);
       setUser(user);
-      const upvoteDB = await isUpvoted(currentUser.email, article.id);
+      const upvoteDB = await isUpvotedArticle(currentUser.email, article.id);
       setUpvoted(upvoteDB);
-
     };
     getAllData();
   }, []);
+
+
+    /**
+   * Creates an entry on the DB "updates_articles" collection, updates the article with the new score and updates the state of setArticlePoints and upvoted
+   * @return [returns nothing]
+   */
   const upvoteArticle = async () => {
-    await upvote(
+    await upvoteArticleDB(
       article.id,
       articlePoints,
-      article.id,
       currentUser.email
     );
 
-    const upvoteDB = await isUpvoted(currentUser.email, article.id);
-    setUpvoted(upvoteDB);  
-    
-      setArticlePoints(articlePoints +  1)
-
+    const upvoteDB = await isUpvotedArticle(currentUser.email, article.id);
+    setUpvoted(upvoteDB);
+    setArticlePoints(articlePoints + 1);
   };
 
+
+  /**
+   * Deletes the entry on the DB "updates_articles" collection for the ID of the article, updates the article with the new score and updates the state of setArticlePoints and upvoted
+   * @return [returns nothing]
+   */
   const unvoteArticle = async () => {
-    
-
-      await unvote(upvoted.id, article.id, articlePoints);
-    
-      const upvoteDB = await isUpvoted(currentUser.email, article.id);
-      setUpvoted(upvoteDB);
-      setArticlePoints(articlePoints -  1)
-
- 
+    await unvote(upvoted.id, article.id, articlePoints);
+    const upvoteDB = await isUpvotedArticle(currentUser.email, article.id);
+    setUpvoted(upvoteDB);
+    setArticlePoints(articlePoints - 1);
   };
 
   return (
@@ -76,10 +77,10 @@ export default function Entry({ article, index, currentUser }) {
             <td valign="top" className="votelinks">
               <center>
                 {upvoted && !upvoted.isvoted && (
-                  <a a href="/#" onClick={upvoteArticle}>
+                  <a href="javascript:void(0)" onClick={upvoteArticle}>
                     <div className="arrow_upvote" title="upvote"></div>
                   </a>
-                ) }
+                )}
               </center>
             </td>
             {currentArticle.url === undefined ? (
@@ -117,8 +118,19 @@ export default function Entry({ article, index, currentUser }) {
                   new Date(currentArticle.created_at.seconds * 1000)
                 ).fromNow()}
               </a>{" "}
-              {upvoted && upvoted.isvoted && (<span> <a href="/#" onClick={unvoteArticle}>| unvote </a></span>) }
-              | hide |<a href={`/article/${currentArticle.id}`}> {comments ? comments.length : 0} comments</a>
+              {upvoted && upvoted.isvoted && (
+                <span>
+                  {" "}
+                  <a href="javascript:void(0)" onClick={unvoteArticle}>
+                    | unvote{" "}
+                  </a>
+                </span>
+              )}
+              | hide |
+              <a href={`/article/${currentArticle.id}`}>
+                {" "}
+                {comments ? comments.length : 0} comments
+              </a>
             </td>
           </tr>{" "}
         </>

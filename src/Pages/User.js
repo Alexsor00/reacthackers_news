@@ -41,18 +41,27 @@ export default function User({ currentUser }) {
                 <td>about: </td>
               </tr>
               <tr>
-                <td ></td>
-                <td  >
-                  <a style={{ color: "black" }} href={`/submited/${user_email}`}>submissions</a>
+                <td></td>
+                <td>
+                  <a
+                    style={{ color: "black" }}
+                    href={`/submited/${user_email}`}
+                  >
+                    submissions
+                  </a>
                 </td>
               </tr>
               <tr>
                 <td></td>
                 <td>
-                  <a style={{ color: "black" }} href={`/comments/${user_email}`}>comments</a>
+                  <a
+                    style={{ color: "black" }}
+                    href={`/comments/${user_email}`}
+                  >
+                    comments
+                  </a>
                 </td>
               </tr>
-             
             </tbody>
           </table>
         </center>

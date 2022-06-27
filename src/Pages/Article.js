@@ -151,11 +151,15 @@ export default function Article({ currentUser }) {
                   return comment.replyComment_id === -1 ? (
                     <tr key={index}>
                       <td>
-                        <Comment comment={comment}  key={index} />
+                        <Comment
+                          comment={comment}
+                          currentUser={currentUser}
+                          key={index}
+                        />
                       </td>
                     </tr>
                   ) : (
-                    <tr key={index}></tr> 
+                    <tr key={index}></tr>
                   );
                 })}
             </tbody>
